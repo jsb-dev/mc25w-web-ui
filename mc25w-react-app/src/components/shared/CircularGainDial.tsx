@@ -53,12 +53,12 @@ const CircularGainDialOverlay: React.FC<CircularGainDialOverlayProps> = ({ rotat
     );
 };
 
-const CircularGainDial: React.FC<CircularGainDialProps> = () => {
+const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation }) => {
     // State to track current rotation
-    const [rotation, setRotation] = useState<number>(180);
+    const [rotation, setRotation] = useState<number>(initialRotation || 180);
 
     // The output value to be passed to JUCE
-    const [gain, setGain] = useState<number>(0);
+    const [gain, setGain] = useState<number>(mapRotationToDecibels(initialRotation || 0));
 
     // Handler for rotation that ensures rotation stays within 0-360 degrees
     const handleRotation = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
@@ -76,7 +76,7 @@ const CircularGainDial: React.FC<CircularGainDialProps> = () => {
             const deltaX = moveEvent.clientX < 0 ? moveEvent.clientX + startX : moveEvent.clientX - startX;
 
             // Dynamically adjust rotation sensitivity and range
-            const newRotation = initialRotation + deltaX * 0.35;
+            const newRotation = initialRotation + deltaX * 0.55;
 
             // Constrain rotation logic with nuanced handling
             setRotation(() => {
