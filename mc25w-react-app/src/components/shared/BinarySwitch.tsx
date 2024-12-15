@@ -3,11 +3,11 @@ import onBinary from '../../assets/onBinary.png';
 import offBinary from '../../assets/offBinary.png';
 
 interface BinarySwitchProps {
-    label?: string;
     initial?: boolean;
+    label?: string;
 }
 
-const BinarySwitch: React.FC<BinarySwitchProps> = ({ label, initial }) => {
+const BinarySwitch: React.FC<BinarySwitchProps> = ({ initial, label }) => {
     const [state, setState] = useState(initial || false);
 
     const toggleSwitch = () => {

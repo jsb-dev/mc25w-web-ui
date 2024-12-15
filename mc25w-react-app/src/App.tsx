@@ -1,7 +1,7 @@
 import '../public/index.css'
-import CircularGainDial from './components/shared/CircularGainDial'
-import BinarySwitch from './components/shared/BinarySwitch'
 import plate from './assets/plate.png'
+import { InputGainDIal, OutputGainDIal, SaturationAmountDial, SoftClippingAmountDial } from './components/ui/Dials';
+import { RMSToggle, PeakToggle } from './components/ui/Switches';
 
 function App() {
 
@@ -25,12 +25,21 @@ function App() {
         height: '329px',
         width: '434px',
         display: 'flex',
+        padding: '0',
         justifyContent: 'space-evenly',
         alignItems: 'center',
         transform: 'scale(150%)',
       }}>
-        <CircularGainDial initialRotation={180} />
-        <BinarySwitch label="Toggle" initial={false} />
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '30%'
+        }}>
+          <InputGainDIal />
+          <SaturationAmountDial />
+        </div>
       </section>
     </main >
   )

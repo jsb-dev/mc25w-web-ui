@@ -2,44 +2,40 @@ import React, { useState, useCallback } from 'react';
 import dial from '../../assets/dial.png';
 import dialRim from '../../assets/dialRim.png';
 
-interface CircularGainDialOverlayProps {
+interface CircularPercentDialOverlayProps {
     rotation: number;
 }
 
-interface CircularGainDialProps {
+interface CircularPercentDialProps {
     initialRotation?: number;
     label?: string;
     onRotationChange?: (rotation: number) => void;
 }
 
-const mapRotationToDecibels = (newRotation: number): number => {
+const mapRotationToPercent = (newRotation: number): number => {
     // Ensure the rotation is within the allowed range
-    if (newRotation < 45) {
-        return 0;
+    if (newRotation < 45 || newRotation > 315) {
+        throw new Error("newRotation must be between 45 and 315.");
     }
 
-    if (newRotation > 315) {
-        return 100;
-    }
-    // Map the rotation from [45, 315] to [-50, +50]
+    // Map the rotation from [45, 315] to [0, 100]
     const minRotation = 45;
     const maxRotation = 315;
-    const minDb = -50;
-    const maxDb = 50;
 
     // Normalize the rotation angle to a range of 0 to 1
     const normalizedRotation = (newRotation - minRotation) / (maxRotation - minRotation);
 
-    // Map the normalized value to the decibel range
-    const decibelValue = minDb + normalizedRotation * (maxDb - minDb);
+    // Map the normalized value to the percentage range
+    const percentageValue = normalizedRotation * 100;
 
     // Round to 2 decimals
-    return Math.round(decibelValue * 100) / 100;
+    return Math.round(percentageValue * 100) / 100;
 };
+
 
 ///////////////// Components /////////////////
 
-const CircularGainDialOverlay: React.FC<CircularGainDialOverlayProps> = ({ rotation }) => {
+const CircularPercentDialOverlay: React.FC<CircularPercentDialOverlayProps> = ({ rotation }) => {
     return (
         <div >
             {/* Dial rim image that will rotate */}
@@ -57,12 +53,12 @@ const CircularGainDialOverlay: React.FC<CircularGainDialOverlayProps> = ({ rotat
     );
 };
 
-const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, label }) => {
+const CircularPercentDial: React.FC<CircularPercentDialProps> = ({ initialRotation, label }) => {
     // State to track current rotation
-    const [rotation, setRotation] = useState<number>(initialRotation || 180);
+    const [rotation, setRotation] = useState<number>(initialRotation || 45);
 
     // The output value to be passed to JUCE
-    const [gain, setGain] = useState<number>(mapRotationToDecibels(initialRotation || 0));
+    const [percent, setPercent] = useState<number>(mapRotationToPercent(initialRotation || 45));
 
     // Handler for rotation that ensures rotation stays within 0-360 degrees
     const handleRotation = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
@@ -88,17 +84,17 @@ const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, la
                 // If rotation is less than 90, bump it up to 90
                 // This prevents rotation below the left side constraint
                 if (newRotation < 45) {
-                    setGain(-50);
+                    setPercent(0);
                     return 45;
                 }
 
                 if (newRotation > 315) {
-                    setGain(50);
+                    setPercent(100);
                     return 315;
                 }
 
                 if (newRotation >= 45 && newRotation <= 315) {
-                    setGain(mapRotationToDecibels(newRotation));
+                    setPercent(mapRotationToPercent(newRotation));
                     // Return the updated rotation
                     return newRotation;
                 }
@@ -121,14 +117,14 @@ const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, la
         <>
             <input
                 type="range"
-                min="-50"
-                max="50"
-                value={gain}
+                min="0"
+                max="100"
+                value={percent}
                 style={{
                     display: 'none',
                 }}
                 readOnly={true}
-                aria-label="Gain adjustment"
+                aria-label="percent adjustment"
             />
             <div style={{
                 display: 'flex',
@@ -141,7 +137,7 @@ const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, la
                 <h2 style={{
                     marginBottom: '30%',
                     position: 'absolute',
-                }}>{label || 'Gain'}</h2>
+                }}>{label || 'Amount'}</h2>
                 <figure
                     // Base dial background image
                     style={{
@@ -159,13 +155,13 @@ const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, la
                     onMouseDown={handleRotation}
                 >
                     {/* Overlay dial with rotation */}
-                    <CircularGainDialOverlay rotation={rotation} />
+                    <CircularPercentDialOverlay rotation={rotation} />
                     <figcaption style={{
                         position: 'absolute',
                         transform: 'scale(400%) translateY(350%)',
                         textAlign: 'center',
                     }}>
-                        {gain} Db
+                        {percent} %
                     </figcaption>
                 </figure>
             </div>
@@ -173,4 +169,4 @@ const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, la
     );
 };
 
-export default CircularGainDial;
+export default CircularPercentDial;
