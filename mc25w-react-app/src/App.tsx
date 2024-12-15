@@ -1,5 +1,6 @@
 import '../public/index.css'
-import CircularDial from './components/shared/CircularDial'
+// import CircularGainDial from './components/shared/CircularGainDial'
+import BinarySwitch from './components/shared/BinarySwitch'
 
 function App() {
 
@@ -9,10 +10,15 @@ function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        height: '100%',
+        width: '100%',
+        overflow: 'hidden',
         backgroundColor: 'rgb(50, 50, 50)',
+        margin: 0,
+        padding: 0,
       }}>
-        <CircularDial />
+        {/* <CircularGainDial /> */}
+        <BinarySwitch label="Switch" />
       </div>
     </main>
   )
