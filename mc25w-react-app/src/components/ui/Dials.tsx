@@ -3,13 +3,13 @@ import CircularGainDial from "../shared/CircularGainDial";
 
 export const InputGainDIal = () => {
     return (
-        <CircularGainDial label={'Input Gain'} />
+        <CircularGainDial label={'In Gain'} />
     );
 }
 
 export const OutputGainDIal = () => {
     return (
-        <CircularGainDial label={'Output Gain'} />
+        <CircularGainDial label={'Out Gain'} />
     );
 }
 

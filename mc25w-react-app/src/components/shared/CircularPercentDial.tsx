@@ -132,14 +132,16 @@ const CircularPercentDial: React.FC<CircularPercentDialProps> = ({ initialRotati
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'absolute',
+                transform: 'translateX(-50%) translateY(-50%)',
+                width: '100px',
+                height: '100px',
             }}
             >
                 <h2 style={{
-                    marginBottom: '30%',
                     position: 'absolute',
+                    transform: 'translateY(-35px)'
                 }}>{label || 'Amount'}</h2>
                 <figure
-                    // Base dial background image
                     style={{
                         backgroundImage: `url(${dial})`,
                         backgroundSize: 'cover',
@@ -149,17 +151,16 @@ const CircularPercentDial: React.FC<CircularPercentDialProps> = ({ initialRotati
                         flexDirection: 'column',
                         justifyContent: 'space-around',
                         alignItems: 'center',
-                        transform: 'scale(25%)',
+                        transform: 'scale(12%)',
                     }}
-                    // Add mouse interaction for rotation
                     onMouseDown={handleRotation}
                 >
-                    {/* Overlay dial with rotation */}
                     <CircularPercentDialOverlay rotation={rotation} />
                     <figcaption style={{
                         position: 'absolute',
-                        transform: 'scale(400%) translateY(350%)',
+                        transform: 'translateY(350%)',
                         textAlign: 'center',
+                        fontSize: '70px',
                     }}>
                         {percent} %
                     </figcaption>

@@ -42,7 +42,6 @@ const mapRotationToDecibels = (newRotation: number): number => {
 const CircularGainDialOverlay: React.FC<CircularGainDialOverlayProps> = ({ rotation }) => {
     return (
         <div >
-            {/* Dial rim image that will rotate */}
             <img
                 src={dialRim}
                 alt="Dial Rim"
@@ -136,14 +135,16 @@ const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, la
                 alignItems: 'center',
                 justifyContent: 'center',
                 position: 'absolute',
+                transform: 'translateX(-50%) translateY(-50%)',
+                width: '100px',
+                height: '100px',
             }}
             >
                 <h2 style={{
-                    marginBottom: '30%',
                     position: 'absolute',
+                    transform: 'translateY(-35px)'
                 }}>{label || 'Gain'}</h2>
                 <figure
-                    // Base dial background image
                     style={{
                         backgroundImage: `url(${dial})`,
                         backgroundSize: 'cover',
@@ -153,17 +154,16 @@ const CircularGainDial: React.FC<CircularGainDialProps> = ({ initialRotation, la
                         flexDirection: 'column',
                         justifyContent: 'space-around',
                         alignItems: 'center',
-                        transform: 'scale(25%)',
+                        transform: 'scale(12%)',
                     }}
-                    // Add mouse interaction for rotation
                     onMouseDown={handleRotation}
                 >
-                    {/* Overlay dial with rotation */}
                     <CircularGainDialOverlay rotation={rotation} />
                     <figcaption style={{
                         position: 'absolute',
-                        transform: 'scale(400%) translateY(350%)',
+                        transform: 'translateY(350%)',
                         textAlign: 'center',
+                        fontSize: '70px',
                     }}>
                         {gain} Db
                     </figcaption>
