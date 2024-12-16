@@ -158,9 +158,9 @@ const CircularPercentDial: React.FC<CircularPercentDialProps> = ({ initialRotati
                     <CircularPercentDialOverlay rotation={rotation} />
                     <figcaption style={{
                         position: 'absolute',
-                        transform: 'translateY(350%)',
+                        transform: 'translateY(335%)',
                         textAlign: 'center',
-                        fontSize: '70px',
+                        fontSize: '73px',
                     }}>
                         {percent} %
                     </figcaption>
